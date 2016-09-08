@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.NumberFormat;
 
 import javax.swing.JCheckBox;
@@ -26,7 +28,7 @@ import com.sun.corba.se.spi.orbutil.fsm.Input;
 
 
 public class FrameRoomInfo extends JFrame {
-
+	private static Connection connect =null;
 	private JPanel contentPane;
 	private JTextField tfRoomId;
 	private JTextField tfNmbrStdnts;
@@ -52,15 +54,24 @@ public class FrameRoomInfo extends JFrame {
 	}
 	
 	//Insert Data into RoomInfo Table
-	public static boolean insert_data(String rid, int nmbr, String type){
+	public static boolean insert_data(String rid, int nmb, String type){
 		try{
-			DB data=new DB();
-			data.connectdb();
+			String nmbr=nmb+"";
+			String query = "insert into RoomInfo (RoomID,Capacity,Type,Day,Slot) values (?,?,?,?,?)";
+			PreparedStatement pst = connect.prepareStatement(query);
+
 			for(int i=1;i<=7;i++){//Day
 				for(int j=1;j<=6;j++){//Slot
-					data.st.executeUpdate("INSERT INTO RoomInfo(RoomID, Capacity, Type, Day, Slot )" + " VALUES ('"+rid+"', '"+nmbr+"', '"+type+"', '"+i+"','"+j+"')");	
+					pst.setString(1, rid);
+					pst.setString(2, nmbr);
+					pst.setString(3, type);
+					pst.setString(4, i+"");
+					pst.setString(5,j+"");
+					pst.execute();
+						
 				}
 			}
+			pst.close();
 			return true;//If insertion is successful
 		
 		}catch(Exception e){
@@ -74,6 +85,7 @@ public class FrameRoomInfo extends JFrame {
 	 */
 	public FrameRoomInfo() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		connect = DB.connectdb();
 		setBounds(100, 100, 651, 377);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

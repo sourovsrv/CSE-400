@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import javax.swing.JFrame;
@@ -28,10 +29,9 @@ import java.awt.event.WindowEvent;
 
 
 public class ImportStudentInfo extends JFrame {
-	private static DB data=new DB();
+	private static Connection connect=null;
 	//Read From Excel 2007
 	public static void readfile() throws IOException {
-		data.connectdb();
 		
         String excelFilePath = "D:\\Docs\\Study Docs\\11th Semester\\CSE400\\Works\\Database\\StudentInfo.xlsx";
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
@@ -69,7 +69,12 @@ public class ImportStudentInfo extends JFrame {
 	//Write to Access 
 	public static boolean insert_data(String sid, String cid){
 		try{
-			data.st.executeUpdate("INSERT INTO StudentInfo(StudentID, CourseID )" + " VALUES ('"+sid+"', '"+cid+"')");
+			String query = "insert into StudentInfo (StudentID, CourseID ) values (?,?)";
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setString(1, sid);
+			pst.setString(2, cid);
+			pst.execute();
+			pst.close();
 			
 			return true;
 		
@@ -105,6 +110,7 @@ public class ImportStudentInfo extends JFrame {
 	 */
 	public ImportStudentInfo() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		connect = DB.connectdb();
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
