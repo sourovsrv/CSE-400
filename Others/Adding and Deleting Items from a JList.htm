@@ -1,0 +1,95 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<style>
+<!--
+ p.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	margin-left:0in; margin-right:0in; margin-top:0in}
+-->
+</style>
+<title>Adding and Deleting Items from a JList</title>
+<link href="Adding%20and%20Deleting%20Items%20from%20a%20JList_files/inject_b.css" type="text/css" rel="stylesheet" id="lite-css-list"></head>
+
+<body>
+
+<p class="MsoNormal" style="text-align:center" align="center"><b>&nbsp;JList 
+Basics</b></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><i><b>Creating, Adding and Deleting Elements from a JList</b></i></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">JLists may be initialized with a set of strings using the 
+constructor</p>
+<p class="MsoNormal">&nbsp;</p>
+<pre>public JList(Object[]&nbsp;listData)</pre>
+<p class="MsoNormal">for example, you can supply an array of Strings:</p>
+<pre>String[] ar = {"one", "two", "three"};
+JList list = new JList(ar);</pre>
+<p class="MsoNormal">However, JList has no method to add or delete items once it is 
+initialized.&nbsp; Instead, if you need to do this, you must use the ListModel class 
+with a JList.&nbsp; Think of the ListModel as the object which holds the items and 
+the JList as the displayer.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">1. Declare an instance of <i>DefaultListModel</i>:</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">DefaultListModel listModel;</font></span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">2. Create it:</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">listModel 
+= new DefaultListModel();</font></span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">3. Populate it (now or later):</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">listModel.addElement(“item 1”);</font></span></p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">listModel.addElement(“item 2”);</font></span></p>
+<p class="MsoNormal">etc.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">4. Use the <i>DefaultListModel</i> in the constructor of a 
+<i>JList</i> (instead of a 
+<i>String</i> array):</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">JList 
+list = new JList(listModel);</font></span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">5. Now to add additional elements at any time during 
+execution, use <i>addElement()</i> again:</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">listModel.addElement(“new item”);</font></span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">and it will show up in the JList. (You can also use <i>
+add(int index)</i> where you specify the 0-based position of the element to be 
+added.)</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">6. To delete an item, just call</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family:&quot;Courier New&quot;">
+<font size="2">listModel.remove(n);</font></span></p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">where n is the 0-based index of the item to remove.&nbsp; It 
+will disappear.</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">7. To delete all the items, call </p>
+<pre>listModel.clear();</pre>
+<p><i><b>Other Notes:</b></i></p>
+<p>To highlight (i.e. select) an item in a <i>JList</i> use</p>
+<pre>list.setSelectedItem(n); </pre>
+<p>To return the currently selected <i>String</i> in a <i>JList</i>, use</p>
+<pre>s = (String) list.getSelectedValue();</pre>
+<p>(This method is defined to return <i>Object</i> because <i>JList</i> actually 
+can contain object types other than <i>Strings</i> (for example, small images 
+know as <i>Icons</i>.&nbsp; Therefore you must typecast the returned value.)</p>
+
+
+
+<div id="link64_vdp_tabid" style="display:none;">1013</div></body></html>

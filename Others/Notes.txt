@@ -1,0 +1,19 @@
+Choosable Fonts
+
+Franklin Gothics
+Book antiqua
+Yu Gothic
+Bodoni Mt
+
+
+objective
+
+create a softaware that can create routine by itself
+
+problem
+current vs new
+
+doesn't need to change/ update
+don't clash student course
+Giving make up class easy
+

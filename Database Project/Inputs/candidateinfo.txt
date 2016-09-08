@@ -1,0 +1,3 @@
+C1	Candidate1	11-12-2014	11,Matikata		
+C2	Candidate2	10-11-2014	12,Mdpur	
+C3	Candidate3	12-09-2014	13,Keranigonj		

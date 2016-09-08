@@ -1,0 +1,75 @@
+if exist drop database election;
+create database election;
+use election;
+
+create table postinfo(
+eid varchar (200) not null,
+postid varchar (200) not null,
+noofpost varchar(200) null,
+primary key (eid,postid)
+) engine=innodb;
+
+
+create table candidateinfo(
+cid varchar(200) not null,
+name varchar(200) not null,
+dob varchar(200),
+address varchar(200) null,
+primary key (cid)
+) engine =innodb;
+
+create table voterinfo(
+vid varchar(200) not null,
+name varchar (200) null,
+dob varchar(200) null,
+pass varchar(200),
+primary key (vid)
+) engine = innodb;
+
+create table velectionreg(
+vid varchar(200) not null,
+eid varchar (200) not null,
+status varchar(200) null,
+primary key (vid,eid)
+) engine = innodb;
+
+create table celectionreg(
+eid varchar (200) not null,
+postid varchar (200) not null,
+cid varchar(200) not null,
+primary key (eid,postid,cid),
+foreign key (eid, postid) references postinfo (eid, postid),
+foreign key (cid) references candidateinfo (cid)
+) engine = innodb;
+
+create table votecast(
+vid varchar(200) not null,
+eid varchar (200) not null,
+postid varchar (200) null,
+cid varchar(200) not null,
+primary key (vid,eid,postid,cid)
+) engine = innodb;
+
+
+alter table velectionreg add constraint fkvelectionregvid foreign key (vid) references voterinfo (vid);
+
+**alter table velectionreg add constraint fkvelectionregeid foreign key (eid) references postinfo (eid);
+
+**alter table celectionreg add constraint fkcelectionregeid foreign key (eid) references postinfo (eid);
+
+alter table celectionreg add constraint fkcelectionregcid foreign key (cid) references candidateinfo (cid);
+
+**alter table celectionreg add constraint fkcelectionregpostid foreign key (postid) references postinfo (postid);
+
+alter table votecast add constraint fkvotecastgvid foreign key (vid) references voterinfo (vid);
+
+alter table votecast add constraint fkvotecastcid foreign key (cid) references candidateinfo (cid);
+
+
+select cid, count(*) as count from votecast group by cid order by count desc;
+
+select cid,max(count(*)) from votecast group by cid;
+
+select name, eid, postid, celectionreg.cid from celectionreg, candidateinfo where candidateinfo.cid=celectionreg.cid;
+
+select cid, count(*) as count from votecast where eid='E2014' and postid='President' group by cid order by count desc;
