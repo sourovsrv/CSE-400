@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import net.proteanit.sql.DbUtils;
 
@@ -56,9 +58,16 @@ public class FrameCourseInfo extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				/*try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    ex.printStackTrace();
+                }*/
+				
 				try {
 					FrameCourseInfo frame = new FrameCourseInfo();
 					frame.setVisible(true);
+					frame.setExtendedState(frame.getExtendedState()| JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,7 +85,7 @@ public class FrameCourseInfo extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		
-		setBounds(100, 100, 839, 471);
+		setBounds(100, 100, 1000, 500);
 		
 		contentpane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentpane);
@@ -92,6 +101,7 @@ public class FrameCourseInfo extends JFrame {
                 Home hm=new Home();
                 hm.frame.setVisible(true);
                 e.getWindow().dispose();
+                hm.frame.setExtendedState(hm.frame.getExtendedState()| JFrame.MAXIMIZED_BOTH);
             }
         });
 		
@@ -127,7 +137,7 @@ public class FrameCourseInfo extends JFrame {
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(254, 68, 540, 353);
+		scrollPane.setBounds(254, 68, 700, 500);
 		contentpane.add(scrollPane);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -170,6 +180,7 @@ public class FrameCourseInfo extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				insertfromstudent();
 				refreshTable();
+				FillComboBox();
 			}
 		});
 		btnImportFromStudentinfo.setBounds(468, 36, 223, 23);
@@ -197,7 +208,8 @@ public class FrameCourseInfo extends JFrame {
 						s=rs.getString("Type");
 						if(s!=null&&s.matches("Lab")) rdbtnLab.setSelected(true);
 						else rdbtnTheory.setSelected(true);
-					}	
+					}
+					rs.close();
 					pst.close();
 					
 				}catch(Exception e){
@@ -353,7 +365,7 @@ public class FrameCourseInfo extends JFrame {
 				if(SearchCourse(s)==true) continue;
 				pst2.setString(1, s);
 				pst2.execute();
-				System.out.println(s);
+				//System.out.println(s);
 			}
 			pst.close();
 			pst2.close();
@@ -403,7 +415,6 @@ public class FrameCourseInfo extends JFrame {
 		contentpane.add(lblType);
 		
 		tfBatch = new JTextField();
-		tfBatch.setToolTipText("Theory/Lab");
 		tfBatch.setBounds(147, 269, 86, 20);
 		tfBatch.setText("");
 		contentpane.add(tfBatch);
